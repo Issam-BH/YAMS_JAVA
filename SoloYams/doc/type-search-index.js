@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"fr.uge.yams","l":"Board"},{"p":"fr.uge.yams","l":"Combination"},{"p":"fr.uge.yams","l":"Dice"},{"p":"fr.uge.yams","l":"FullHouse"},{"p":"fr.uge.yams","l":"ScoreSheet"},{"p":"fr.uge.yams","l":"ThreeOfAKind"},{"p":"fr.uge.yams","l":"Yams"}];updateSearchResults();
