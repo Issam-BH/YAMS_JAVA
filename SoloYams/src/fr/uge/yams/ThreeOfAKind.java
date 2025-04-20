@@ -1,5 +1,8 @@
 package fr.uge.yams;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Représente la combinaison "Three of a Kind" (brelan) dans le jeu de Yams.
  * 
@@ -11,16 +14,34 @@ package fr.uge.yams;
 public record ThreeOfAKind() implements Combination {
 
     /**
-     * Calcule le score pour la combinaison "Three of a Kind".
+     * Calcule le score pour la combinaison "Three of a Kind" a.k.a Brelan. 
      * 
      * @param board le plateau de jeu à analyser
-     * @return 15 si brelan détecté (actuellement renvoie toujours 15)
+     * @return valeurs de la somme des dés si brelan détecté
      */
-    @Override
-    public int score(Board board) {
-        // ⚠ À implémenter : vraie détection d’un brelan dans les dés
-        return 15;
-    }
+	@Override
+	public int score(Board board) {
+	    Map<Integer, Integer> compteur = new HashMap<>();
+	    int totalDes = 0;
+
+	    for (Dice de : board) {
+	        int val = de.value(); 
+	        totalDes += val; // On fait le total de valeur de dé (pour éviter de faire de la multiplication)
+	        compteur.put(val, compteur.getOrDefault(val, 0) + 1);  
+	    }
+	    /*
+	     * On met la valeur au lieu du dé en lui meme
+	     * pour éviter d'avoir des dé de la meme valeur en doublon
+	     */
+
+	    for (int count : compteur.values()) { // On cherche dans les valeurs si il existe un 3
+	        if (count == 3) {
+	            return totalDes; // retourne la somme de la valeur des dés
+	        }
+	    }
+
+	    return 0; // Aucun brelan
+	}
 
     /**
      * Représente cette combinaison en tant que chaîne de caractères.
