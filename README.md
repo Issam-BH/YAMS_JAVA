@@ -18,3 +18,9 @@ Projet SAE de BUT Informatique - IUT Marne-La-Vallée
 - Commentaire du programme
 
 - Création de la javadoc avec du programme actuel
+
+# Mise à jour 20/04/25 - Yanis
+
+- Threeofkind terminé
+
+- Carré crée
