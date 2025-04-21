@@ -1,5 +1,6 @@
 package fr.uge.yams;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,39 +19,40 @@ import java.util.Map;
 public record Carre() implements Combination {
 
     /**
-     * Calcule le score pour la combinaison "Three of a Kind" a.k.a Brelan. 
+     * Calcule le score pour la combinaison "Carree". 
      * 
      * @param board le plateau de jeu à analyser
      * @return valeurs de la somme des dés si brelan détecté
      */
 	@Override
-	public int score(Board board) {
-	    Map<Integer, Integer> compteur = new HashMap<>();
-	    int totalDes = 0;
+    public int score(Board board) {
+        Map<Integer, Integer> compteur = new HashMap<>();
+        int totalDes = 0;
 
-	    for (Dice de : board) {
-	        int val = de.value(); 
-	        totalDes += val; // On fait le total de valeur de dé (pour éviter de faire de la multiplication)
-	        compteur.put(val, compteur.getOrDefault(val, 0) + 1);  
-	    }
-	    /*
-	     * On met la valeur au lieu du dé en lui meme
-	     * pour éviter d'avoir des dé de la meme valeur en doublon
-	     */
+        // Récupérer la liste des dés depuis le plateau
+        ArrayList<Dice> dices = board.getFiveDice();  // Utilisation du getter
 
-	    for (int count : compteur.values()) { // On cherche dans les valeurs si il existe un 3
-	        if (count == 4) {
-	            return totalDes; // retourne la somme de la valeur des dés
-	        }
-	    }
+        // On parcourt la liste de dés
+        for (Dice de : dices) { 
+            int val = de.value(); 
+            totalDes += val; // Somme des valeurs des dés
+            compteur.put(val, compteur.getOrDefault(val, 0) + 1);  
+        }
 
-	    return 0; // Aucun brelan
-	}
+        // On cherche une valeur qui apparaît 4 fois, ce qui constitue un carre
+        for (int count : compteur.values()) { 
+            if (count == 4) {
+                return totalDes; // Si 4 dés ont la même valeur, retourner la somme
+            }
+        }
+
+        return 0; // Aucun carre trouvé
+    }
 
     /**
      * Représente cette combinaison en tant que chaîne de caractères.
      *
-     * @return "Three of A Kind"
+     * @return "Carree"
      */
     @Override
     public String toString() {

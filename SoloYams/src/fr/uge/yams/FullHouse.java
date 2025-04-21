@@ -1,15 +1,15 @@
 package fr.uge.yams;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Représente la combinaison "Full House" dans le jeu de Yams.
  * 
  * Un Full House est une combinaison composée de trois dés identiques (un brelan)
  * et de deux autres dés identiques (une paire), comme [2, 2, 3, 3, 3].
- * 
- * Cette implémentation retourne actuellement un score fixe de 25, 
- * sans vérifier la validité de la combinaison sur le plateau.
- * 
- * Elle doit être améliorée pour analyser les dés du {@link Board}.
+ *
  */
 public record FullHouse() implements Combination {
 
@@ -19,11 +19,35 @@ public record FullHouse() implements Combination {
      * @param board le plateau de jeu actuel
      * @return 25 si Full House est détecté (actuellement toujours 25, sans analyse)
      */
-    @Override
-    public int score(Board board) {
-        // ⚠ À implémenter : analyse réelle des dés du plateau
-        return 25;
-    }
+	@Override
+	public int score(Board board) {
+	    Map<Integer, Integer> compteur = new HashMap<>();
+	    @SuppressWarnings("unused")
+		int totalDes = 0;
+
+	    ArrayList<Dice> dices = board.getFiveDice();
+
+	    // Compter les occurrences et additionner les valeurs
+	    for (Dice de : dices) {
+	        int val = de.value();
+	        totalDes += val;
+	        compteur.put(val, compteur.getOrDefault(val, 0) + 1);
+	    }
+
+	    boolean hasThree = false;
+	    boolean hasTwo = false;
+
+	    for (int count : compteur.values()) {
+	        if (count == 3) {
+	            hasThree = true;
+	        } else if (count == 2) {
+	            hasTwo = true;
+	        }
+	    }
+
+	    return (hasThree && hasTwo) ? 25 : 0;
+	}
+
 
     /**
      * Fournit une représentation textuelle de cette combinaison.

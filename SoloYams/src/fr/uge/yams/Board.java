@@ -65,4 +65,17 @@ public class Board {
         board.reroll(2); // Relance le deuxième dé
         System.out.println(board); // Affiche le plateau après relance
     }
+    
+    /**
+     * Retourne la liste des 5 dés du plateau.
+     * 
+     * Cette méthode permet d'accéder à la liste des dès qu'on a actuellement.
+     * sur le plateau de jeu. La liste retournée est une ArrayList contenant des objets Dice.
+     * 
+     * @return une ArrayList contenant les 5 dés du plateau
+     */
+    public ArrayList<Dice> getFiveDice() {
+        return fiveDice;
+    }
+
 }

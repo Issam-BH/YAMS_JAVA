@@ -24,3 +24,11 @@ Projet SAE de BUT Informatique - IUT Marne-La-Vallée
 - Threeofkind terminé
 
 - Carré crée
+
+# Mise à jour 21/04/25 - Issam
+
+- Threeofkind corrigé
+
+- Carré corrigé et terminé 
+
+– Petite suite, grande suite, Yam’s et Chance : créés et terminés

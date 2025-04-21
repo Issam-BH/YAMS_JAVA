@@ -19,29 +19,26 @@ public record ThreeOfAKind() implements Combination {
      * @param board le plateau de jeu à analyser
      * @return valeurs de la somme des dés si brelan détecté
      */
-	@Override
 	public int score(Board board) {
-	    Map<Integer, Integer> compteur = new HashMap<>();
-	    int totalDes = 0;
+        Map<Integer, Integer> compteur = new HashMap<>();
+        int totalDes = 0;
 
-	    for (Dice de : board) {
-	        int val = de.value(); 
-	        totalDes += val; // On fait le total de valeur de dé (pour éviter de faire de la multiplication)
-	        compteur.put(val, compteur.getOrDefault(val, 0) + 1);  
-	    }
-	    /*
-	     * On met la valeur au lieu du dé en lui meme
-	     * pour éviter d'avoir des dé de la meme valeur en doublon
-	     */
+        // Utiliser le getter pour accéder à la liste des dés
+        for (Dice de : board.getFiveDice()) {  // Utilisation du getter pour accéder aux dés
+            int val = de.value(); 
+            totalDes += val; // Somme des valeurs des dés
+            compteur.put(val, compteur.getOrDefault(val, 0) + 1);  
+        }
 
-	    for (int count : compteur.values()) { // On cherche dans les valeurs si il existe un 3
-	        if (count == 3) {
-	            return totalDes; // retourne la somme de la valeur des dés
-	        }
-	    }
+        // Recherche d'un brelan (3 dés avec la même valeur)
+        for (int count : compteur.values()) {
+            if (count == 3) {
+                return totalDes; // Retourne la somme des dés si un brelan est trouvé
+            }
+        }
 
-	    return 0; // Aucun brelan
-	}
+        return 0; // Aucun brelan trouvé
+    }
 
     /**
      * Représente cette combinaison en tant que chaîne de caractères.
