@@ -7,7 +7,7 @@ Projet SAE de BUT Informatique - IUT Marne-La-Vallée
 |----------------|--------------------------------------------|--------------------|---------------|------|
 | Brelan         | Obtenir trois dés de même valeur           | Somme des cinq dés | 30 points     | ✅ |
 | Carré          | Obtenir quatre dés de même valeur          | Somme des cinq dés | 30 points     | ✅ |
-| Full           | Obtenir un brelan et deux dés de même valeur | 25 points          | 25 points     | ❌ |
+| Full           | Obtenir un brelan et deux dés de même valeur | 25 points          | 25 points     | ✅ |
 | Petite suite   | Obtenir une suite croissante de quatre dés  | 30 points          | 30 points     | ✅ |
 | Grande suite   | Obtenir une suite croissante de cinq dés    | 40 points          | 40 points     | ✅ |
 | Yam's          | Obtenir cinq dés de même valeur             | 50 points          | 50 points     | ✅  |
@@ -42,3 +42,5 @@ Projet SAE de BUT Informatique - IUT Marne-La-Vallée
 - Carré corrigé et terminé 
 
 – Petite suite, grande suite, Yam’s et Chance : créés et terminés
+
+(Yanis: T'as aussi fait le full)
