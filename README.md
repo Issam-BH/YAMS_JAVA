@@ -13,6 +13,16 @@ Projet SAE de BUT Informatique - IUT Marne-La-Vallée
 | Yam's          | Obtenir cinq dés de même valeur             | 50 points          | 50 points     | ✅  |
 | Chance         | Aucune condition                           | Somme des cinq dés | 30 points     | ✅ |
 
+| Français        | Anglais                  |
+|----------------|--------------------------|
+| Brelan         | Three of a Kind          |
+| Carré          | Four of a Kind           |
+| Full           | Full House               |
+| Petite suite   | Small Straight           |
+| Grande suite   | Large Straight           |
+| Yam's          | Yahtzee (ou Yams)        |
+| Chance         | Chance                   |
+
 # Mise à jour 18/04/25 - Yanis
 
 - Commentaire du programme
