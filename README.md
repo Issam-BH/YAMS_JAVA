@@ -44,3 +44,10 @@ Projet SAE de BUT Informatique - IUT Marne-La-Vallée
 – Petite suite, grande suite, Yam’s et Chance : créés et terminés
 
 (Yanis: T'as aussi fait le full)
+
+# Mise à jour 22/04/25 - Yanis
+
+- Ajout du sacrifice
+
+- Les combinaisons peuvent maintenant être selectionner en jeu
+
