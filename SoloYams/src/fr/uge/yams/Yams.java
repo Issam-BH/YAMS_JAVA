@@ -41,7 +41,7 @@ public class Yams {
      */
     private static String askCombination(Scanner scanner) {
         System.out.println("Please choose a combination to score in your score sheet by entering its first letter.");
-        System.out.println("T = Three of a Kind | F = Full House");
+        System.out.println("T = Three of a Kind | F = Full House | SQ = Carré | SS = Small Straight | LS = Large Straight | C = Chance | Y = Yams | S = Sacrifice");
         var choice = scanner.nextLine();
         return choice;
     }
@@ -55,8 +55,14 @@ public class Yams {
      */
     private static Combination parseCombination(String combinationName) {
         return switch (combinationName.toUpperCase()) {
-            case "T" -> new ThreeOfAKind();
-            case "F" -> new FullHouse();
+            case "T" -> new ThreeOfAKind(); // IMPORTANT : Ajout des appel des scores "SPECIAUX" merci de faire un appel sur ceux-ci
+            case "F" -> new FullHouse(); 
+            case "SQ" -> new Carre();
+            case "SS" -> new SmallStraight();
+            case "LS" -> new LargeStraight();
+            case "C" -> new Chance();
+            case "Y" -> new YamsCombination();
+            case "S" -> new Sacrifice();
             default -> throw new IllegalArgumentException("Unexpected value: " + combinationName);
         };
     }
@@ -73,11 +79,14 @@ public class Yams {
         System.out.println("Hello " + name + ", and good luck !\n");
 
         var scoreSheet = new ScoreSheet(); // Feuille de score du joueur
-
+        var board = new Board(); // Lancer initial des dés
+        /* Yanis : Prions pour que ça cause pas de bug
+         * Mais j'ai déplacé le premier appel de board pour permettre de sacrifier
+         * une case (sinon ça allait se faire reset dès le début d'un nouveau tour) 
+         */
         // Deux tours maximum
         for (var roundCounter = 0; roundCounter < 2; roundCounter++) {
             System.out.println("Welcome in round " + (roundCounter + 1));
-            var board = new Board(); // Lancer initial des dés
             System.out.println(board);
 
             // Jusqu’à 3 relances possibles
