@@ -55,3 +55,4 @@ Projet SAE de BUT Informatique - IUT Marne-La-Vallée
 
 - Ajout de l'IA
 
+- Mode 2 Joueur
