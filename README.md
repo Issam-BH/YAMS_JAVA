@@ -51,3 +51,7 @@ Projet SAE de BUT Informatique - IUT Marne-La-Vallée
 
 - Les combinaisons peuvent maintenant être selectionner en jeu
 
+# Mise à jour 24/04/25 - Yanis
+
+- Ajout de l'IA
+
