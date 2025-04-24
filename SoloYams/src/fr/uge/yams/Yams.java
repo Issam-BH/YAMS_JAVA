@@ -22,7 +22,7 @@ public class Yams {
     }
 
     public static int gamemode(Scanner scanner) {
-    	System.out.println("Choose your game mode : \n 1 = Classic \n 2 = V.S. COMP");
+    	System.out.println("Choose your game mode : \n 1 = Classic \n 2 = V.S. COMP \n 3 = 1 V 1");
     	int choice = scanner.nextInt(); // recup int
     	scanner.nextLine(); /* Pour la faire courte la line d'avant recupere QUE un int
     	 * cependant ça nous laisse avec tout l'espace qui suit l'int ce qui 
@@ -52,6 +52,7 @@ public class Yams {
     private static String askCombination(Scanner scanner) {
         System.out.println("Please choose a combination to score in your score sheet by entering its first letter.");
         System.out.println("T = Three of a Kind | F = Full House | SQ = Carré | SS = Small Straight | LS = Large Straight | C = Chance | Y = Yams | S = Sacrifice");
+        System.out.println("Note : You can't use the combination you've already choose.");
         var choice = scanner.nextLine();
         return choice;
     }
@@ -181,7 +182,89 @@ public class Yams {
             } else {
             	System.out.println("The computer has won !");
             }
-        } else {
+            
+            
+            
+            
+        } else if (gamemode == 3) { // 1 V 1
+        	System.out.println("What is Player 2 name ?");
+        	String nameJ2 = scanner.nextLine();
+        	var scoreSheetJ2 = new ScoreSheet(); 
+            var boardJ2 = new Board(); 
+            
+            var scoreSheet = new ScoreSheet(); // Feuille de score du joueur
+            var board = new Board();
+            
+         // 4 tours maximum
+            for (var roundCounter = 0; roundCounter < 4; roundCounter++) { // Tour impair = tour joueur Tour pair = tour IA
+                if (roundCounter % 2 == 0) {
+            	System.out.println("Your turn " + name);
+                System.out.println(board);
+
+                boolean hasScored = false; // Ajoutez cette variable pour suivre si le joueur a déjà noté son score
+
+                for (var updateCounter = 0; updateCounter < 3; updateCounter++) {
+                    if (hasScored) { // Si le joueur a déjà noté son score on sort de la boucle
+                        break;
+                    }
+                    
+                    var choice = askReroll(scanner);
+                    if (choice > 0) {
+                        board.reroll(choice);
+                        System.out.println(board);
+                    } else if (choice == 0) {
+                        var combinationChoice = parseCombination(askCombination(scanner));
+                        scoreSheet.updateScore(combinationChoice, board); // Met à jour le score
+                        System.out.println(scoreSheet);
+                        hasScored = true; // Marquer que le joueur a noté son score
+                        break; // Sortir de la boucle des relances
+                    }
+                }
+
+                // S'assurer que le joueur a noté un score avant de passer au tour suivant
+                if (!hasScored) {
+                    var combinationChoice = parseCombination(askCombination(scanner));
+                    scoreSheet.updateScore(combinationChoice, board);
+                    System.out.println(scoreSheet);
+                }
+            }
+             else if (roundCounter % 2 != 0) // Tour J2
+            {
+                 	System.out.println("Your turn " + nameJ2);
+                     System.out.println(boardJ2);
+
+                     boolean hasScored = false; // Ajoutez cette variable pour suivre si le joueur a déjà noté son score
+
+                     for (var updateCounter = 0; updateCounter < 3; updateCounter++) {
+                         if (hasScored) { // Si le joueur a déjà noté son score on sort de la boucle
+                             break;
+                         }
+                         
+                         var choice = askReroll(scanner);
+                         if (choice > 0) {
+                             boardJ2.reroll(choice);
+                             System.out.println(boardJ2);
+                         } else if (choice == 0) {
+                             var combinationChoice = parseCombination(askCombination(scanner));
+                             scoreSheetJ2.updateScore(combinationChoice, boardJ2); // Met à jour le score
+                             System.out.println(scoreSheetJ2);
+                             hasScored = true; // Marquer que le joueur a noté son score
+                             break; // Sortir de la boucle des relances
+                         }
+                     }
+
+                     // S'assurer que le joueur a noté un score avant de passer au tour suivant
+                     if (!hasScored) {
+                         var combinationChoice = parseCombination(askCombination(scanner));
+                         scoreSheetJ2.updateScore(combinationChoice, boardJ2);
+                         System.out.println(scoreSheetJ2);
+                     }
+            	 }
+            }
+            }
+        
+        
+        else {
         	System.out.println("Choix invalide"); 
         }
 
