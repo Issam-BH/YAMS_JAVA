@@ -56,3 +56,8 @@ Projet SAE de BUT Informatique - IUT Marne-La-Vallée
 - Ajout de l'IA
 
 - Mode 2 Joueur
+
+# Mise à jour 26/04/25 - Issam
+
+- Rédactions des 3 comptes-rendus
+- Test des différents objectifs
