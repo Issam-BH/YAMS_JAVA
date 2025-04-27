@@ -1,6 +1,6 @@
 # 🧩 Document de Travail – Développement d’un Yams Solo
 
-**Noms des étudiants : Yanis BOUKAYOUH**  
+**Noms des étudiants : Yanis BOUKAYOUH/ Issam BEN HAMOUDA**  
 **Date : 27/04/2025**
 
 ---
