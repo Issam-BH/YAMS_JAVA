@@ -5,7 +5,7 @@ import java.util.Scanner;
 /**
  * Classe principale du jeu de Yams.
  * 
- * Gère l’interaction avec le joueur, le déroulement des tours, 
+ * Gère l'interaction avec le joueur, le déroulement des tours, 
  * les relances de dés, le choix de combinaisons et la mise à jour du score.
  */
 public class Yams {
@@ -21,21 +21,24 @@ public class Yams {
         return scanner.nextLine();
     }
 
-    public static int gamemode(Scanner scanner) {
-    	System.out.println("Choose your game mode : \n 1 = Classic \n 2 = V.S. COMP \n 3 = 1 V 1");
-    	int choice = scanner.nextInt(); // recup int
-    	scanner.nextLine(); /* Pour la faire courte la line d'avant recupere QUE un int
-    	 * cependant ça nous laisse avec tout l'espace qui suit l'int ce qui 
-    	 * cause des probleme avec les scanners qui suivront cette partie permet alrs
-    	 * d'enlever l'espace restant - Yanis
-    	 */
-    	return choice;
-    }
     /**
-     * Demande au joueur s’il souhaite relancer un dé.
+     * Demande au joueur de choisir un mode de jeu.
+     * 
+     * @param scanner le scanner utilisé pour lire l'entrée utilisateur
+     * @return le mode de jeu choisi (1=Classic, 2=VS COMP, 3=1V1)
+     */
+    public static int gamemode(Scanner scanner) {
+        System.out.println("Choose your game mode : \n 1 = Classic \n 2 = V.S. COMP \n 3 = 1 V 1");
+        int choice = scanner.nextInt();
+        scanner.nextLine(); // Pour vider le buffer
+        return choice;
+    }
+
+    /**
+     * Demande au joueur s'il souhaite relancer un dé.
      * 
      * @param scanner le scanner pour lire la réponse
-     * @return un entier entre 0 et 5 : 0 pour ne pas relancer, sinon l’index du dé à relancer
+     * @return un entier entre 0 et 5 : 0 pour ne pas relancer, sinon l'index du dé à relancer
      */
     private static int askReroll(Scanner scanner) {
         System.out.println("Do you want to reroll a die? Type 0 for no, 1-5 to reroll this die.");
@@ -66,7 +69,7 @@ public class Yams {
      */
     private static Combination parseCombination(String combinationName) {
         return switch (combinationName.toUpperCase()) {
-            case "T" -> new ThreeOfAKind(); // IMPORTANT : Ajout des appel des scores "SPECIAUX" merci de faire un appel sur ceux-ci
+            case "T" -> new ThreeOfAKind();
             case "F" -> new FullHouse(); 
             case "SQ" -> new Carre();
             case "SS" -> new SmallStraight();
@@ -84,190 +87,226 @@ public class Yams {
      * @param args les arguments de ligne de commande (non utilisés)
      */
     public static void main(String[] args) {
-
+        // Un seul scanner pour toute l'application
         var scanner = new Scanner(System.in);
         var name = init(scanner); // Récupère le nom du joueur
         System.out.println("Hello " + name + ", and good luck !\n");
         
-        var scanner2 = new Scanner(System.in);
-        int gamemode = gamemode(scanner2);
+        int gamemode = gamemode(scanner);
         
-        if (gamemode == 1) {
+        if (gamemode == 1) { // Mode classique
+            var scoreSheet = new ScoreSheet();
+            var board = new Board();
+            
+            // Nombre de tours à adapter selon les règles du jeu
+            int totalRounds = 13; // Typiquement 13 dans un Yams complet
+            
+            for (var roundCounter = 0; roundCounter < totalRounds; roundCounter++) {
+                System.out.println("Welcome in round " + (roundCounter + 1));
+                
+                // Créer un nouveau lancé de dés à chaque tour
+                board = new Board();
+                System.out.println(board);
 
-        var scoreSheet = new ScoreSheet(); // Feuille de score du joueur
-        var board = new Board(); // Lancer initial des dés
-        
-        /* Yanis : Prions pour que ça cause pas de bug
-         * Mais j'ai déplacé le premier appel de board hors de la boucle pour permettre de sacrifier
-         * une case (sinon ça allait se faire reset dès le début d'un nouveau tour) 
-         */
-        
-        // Deux tours maximum
-        for (var roundCounter = 0; roundCounter < 2; roundCounter++) {
-            System.out.println("Welcome in round " + (roundCounter + 1));
-            System.out.println(board);
+                boolean hasScored = false;
+                
+                // Jusqu'à 3 relances possibles
+                for (var updateCounter = 0; updateCounter < 3; updateCounter++) {
+                    if (hasScored) {
+                        break;
+                    }
+                    
+                    var choice = askReroll(scanner);
+                    if (choice > 0 && choice <= 5) {
+                        board.reroll(choice);
+                        System.out.println(board);
+                    } else if (choice == 0) {
+                        var combinationChoice = parseCombination(askCombination(scanner));
+                        scoreSheet.updateScore(combinationChoice, board);
+                        System.out.println(scoreSheet);
+                        hasScored = true;
+                        break;
+                    }
+                }
 
-            // Jusqu’à 3 relances possibles
-            for (var updateCounter = 0; updateCounter < 3; updateCounter++) {
-                var choice = askReroll(scanner);
-                if (choice > 0) {
-                    board.reroll(choice);
+                // S'assurer que le joueur a noté un score avant de passer au tour suivant
+                if (!hasScored) {
+                    var combinationChoice = parseCombination(askCombination(scanner));
+                    scoreSheet.updateScore(combinationChoice, board);
+                    System.out.println(scoreSheet);
+                }
+            }
+            
+            System.out.println("Final score: " + scoreSheet.scoreTotal());
+            
+        } else if (gamemode == 2) { // Mode VS IA
+            var scoreSheetIA = new ScoreSheet(); 
+            var scoreSheet = new ScoreSheet();
+            
+            // Nombre de tours total à adapter
+            int totalRounds = 8; // 4 tours chacun
+            
+            for (var roundCounter = 0; roundCounter < totalRounds; roundCounter++) {
+                if (roundCounter % 2 == 0) { // Tour du joueur
+                    System.out.println("Welcome in round " + (roundCounter / 2 + 1) + " - " + name + "'s turn");
+                    
+                    // Nouvelle main de dés pour le joueur
+                    var board = new Board();
                     System.out.println(board);
-                } else {
-                    break;
-                }
-            }
 
-            // Choix de la combinaison
-            var combinationChoice = parseCombination(askCombination(scanner));
-            scoreSheet.updateScore(combinationChoice, board); // Met à jour le score
-            System.out.println(scoreSheet);
-        }
-        } else if (gamemode == 2) { // Mode VS IA ou comp
-        	
-        	var scoreSheetIA = new ScoreSheet(); 
-            var boardIA = new Board(); 
-            
-            var scoreSheet = new ScoreSheet(); // Feuille de score du joueur
-            var board = new Board();
-            
-         // 4 tours maximum
-            for (var roundCounter = 0; roundCounter < 4; roundCounter++) { // Tour impair = tour joueur Tour pair = tour IA
-                if (roundCounter % 2 == 0) {
-            	System.out.println("Welcome in round " + (roundCounter + 1));
-                System.out.println(board);
+                    boolean hasScored = false;
 
-                boolean hasScored = false; // Ajoutez cette variable pour suivre si le joueur a déjà noté son score
-
-                for (var updateCounter = 0; updateCounter < 3; updateCounter++) {
-                    if (hasScored) { // Si le joueur a déjà noté son score on sort de la boucle
-                        break;
+                    for (var updateCounter = 0; updateCounter < 3; updateCounter++) {
+                        if (hasScored) {
+                            break;
+                        }
+                        
+                        var choice = askReroll(scanner);
+                        if (choice > 0 && choice <= 5) {
+                            board.reroll(choice);
+                            System.out.println(board);
+                        } else if (choice == 0) {
+                            var combinationChoice = parseCombination(askCombination(scanner));
+                            scoreSheet.updateScore(combinationChoice, board);
+                            System.out.println(scoreSheet);
+                            hasScored = true;
+                            break;
+                        }
                     }
-                    
-                    var choice = askReroll(scanner);
-                    if (choice > 0) {
-                        board.reroll(choice);
-                        System.out.println(board);
-                    } else if (choice == 0) {
+
+                    // S'assurer que le joueur a noté un score avant de passer au tour suivant
+                    if (!hasScored) {
                         var combinationChoice = parseCombination(askCombination(scanner));
-                        scoreSheet.updateScore(combinationChoice, board); // Met à jour le score
+                        scoreSheet.updateScore(combinationChoice, board);
                         System.out.println(scoreSheet);
-                        hasScored = true; // Marquer que le joueur a noté son score
-                        break; // Sortir de la boucle des relances
                     }
+                } else { // Tour de l'IA
+                    System.out.println("Round " + ((roundCounter / 2) + 1) + " - AI Turn!");
+                    
+                    // Nouvelle main de dés pour l'IA
+                    var boardIA = new Board();
+                    System.out.println("AI rolls: " + boardIA);
+                    
+                    // Logique de l'IA pour choisir la meilleure combinaison
+                    var combi = Computer.chooseBestCombination(boardIA);
+                    scoreSheetIA.updateScore(combi, boardIA);
+                    System.out.println("AI chooses: " + combi.getClass().getSimpleName());
+                    System.out.println("AI score sheet: " + scoreSheetIA);
                 }
-
-                // S'assurer que le joueur a noté un score avant de passer au tour suivant
-                if (!hasScored) {
-                    var combinationChoice = parseCombination(askCombination(scanner));
-                    scoreSheet.updateScore(combinationChoice, board);
-                    System.out.println(scoreSheet);
-                }
             }
-             else if (roundCounter % 2 != 0) // Tour IA
-            {
-            	System.out.println("AI Turn !");
-            	System.out.println(boardIA); 
-            	/*
-            	 *  TODO: Pimenter la difficulté de l'IA (voir comment reroll de façon intelliente
-            	 *  ou rigged ses drop à voir)
-            	*/
-            	var combi = Computer.chooseBestCombination(boardIA);
-                scoreSheetIA.updateScore(combi, boardIA); // Met à jour le score
-            }
-            }
-            // On la game est terminée normalement
+            
+            // Affichage des scores finaux
+            System.out.println("\nFinal scores:");
+            System.out.println(name + ": " + scoreSheet.scoreTotal());
+            System.out.println("Computer: " + scoreSheetIA.scoreTotal());
+            
+            // Détermination du gagnant
             if (scoreSheet.scoreTotal() > scoreSheetIA.scoreTotal()) {
-            	System.out.println(name + " has Won !!!");
+                System.out.println(name + " has Won !!!");
+            } else if (scoreSheet.scoreTotal() < scoreSheetIA.scoreTotal()) {
+                System.out.println("The computer has won!");
             } else {
-            	System.out.println("The computer has won !");
+                System.out.println("It's a tie!");
             }
             
+        } else if (gamemode == 3) { // Mode 1 contre 1
+            System.out.println("What is Player 2 name?");
+            String nameJ2 = scanner.nextLine();
             
+            var scoreSheetJ1 = new ScoreSheet();
+            var scoreSheetJ2 = new ScoreSheet();
             
+            // Nombre de tours total à adapter
+            int totalRounds = 8; // 4 tours chacun
             
-        } else if (gamemode == 3) { // 1 V 1
-        	System.out.println("What is Player 2 name ?");
-        	String nameJ2 = scanner.nextLine();
-        	var scoreSheetJ2 = new ScoreSheet(); 
-            var boardJ2 = new Board(); 
-            
-            var scoreSheet = new ScoreSheet(); // Feuille de score du joueur
-            var board = new Board();
-            
-         // 4 tours maximum
-            for (var roundCounter = 0; roundCounter < 4; roundCounter++) { // Tour impair = tour joueur Tour pair = tour IA
-                if (roundCounter % 2 == 0) {
-            	System.out.println("Your turn " + name);
-                System.out.println(board);
-
-                boolean hasScored = false; // Ajoutez cette variable pour suivre si le joueur a déjà noté son score
-
-                for (var updateCounter = 0; updateCounter < 3; updateCounter++) {
-                    if (hasScored) { // Si le joueur a déjà noté son score on sort de la boucle
-                        break;
-                    }
+            for (var roundCounter = 0; roundCounter < totalRounds; roundCounter++) {
+                if (roundCounter % 2 == 0) { // Tour du joueur 1
+                    System.out.println("Round " + ((roundCounter / 2) + 1) + " - " + name + "'s turn");
                     
-                    var choice = askReroll(scanner);
-                    if (choice > 0) {
-                        board.reroll(choice);
-                        System.out.println(board);
-                    } else if (choice == 0) {
+                    // Nouvelle main de dés pour le joueur 1
+                    var boardJ1 = new Board();
+                    System.out.println(boardJ1);
+
+                    boolean hasScored = false;
+
+                    for (var updateCounter = 0; updateCounter < 3; updateCounter++) {
+                        if (hasScored) {
+                            break;
+                        }
+                        
+                        var choice = askReroll(scanner);
+                        if (choice > 0 && choice <= 5) {
+                            boardJ1.reroll(choice);
+                            System.out.println(boardJ1);
+                        } else if (choice == 0) {
+                            var combinationChoice = parseCombination(askCombination(scanner));
+                            scoreSheetJ1.updateScore(combinationChoice, boardJ1);
+                            System.out.println(scoreSheetJ1);
+                            hasScored = true;
+                            break;
+                        }
+                    }
+
+                    // S'assurer que le joueur a noté un score avant de passer au tour suivant
+                    if (!hasScored) {
                         var combinationChoice = parseCombination(askCombination(scanner));
-                        scoreSheet.updateScore(combinationChoice, board); // Met à jour le score
-                        System.out.println(scoreSheet);
-                        hasScored = true; // Marquer que le joueur a noté son score
-                        break; // Sortir de la boucle des relances
+                        scoreSheetJ1.updateScore(combinationChoice, boardJ1);
+                        System.out.println(scoreSheetJ1);
+                    }
+                } else { // Tour du joueur 2
+                    System.out.println("Round " + ((roundCounter / 2) + 1) + " - " + nameJ2 + "'s turn");
+                    
+                    // Nouvelle main de dés pour le joueur 2
+                    var boardJ2 = new Board();
+                    System.out.println(boardJ2);
+
+                    boolean hasScored = false;
+
+                    for (var updateCounter = 0; updateCounter < 3; updateCounter++) {
+                        if (hasScored) {
+                            break;
+                        }
+                        
+                        var choice = askReroll(scanner);
+                        if (choice > 0 && choice <= 5) {
+                            boardJ2.reroll(choice);
+                            System.out.println(boardJ2);
+                        } else if (choice == 0) {
+                            var combinationChoice = parseCombination(askCombination(scanner));
+                            scoreSheetJ2.updateScore(combinationChoice, boardJ2);
+                            System.out.println(scoreSheetJ2);
+                            hasScored = true;
+                            break;
+                        }
+                    }
+
+                    // S'assurer que le joueur a noté un score avant de passer au tour suivant
+                    if (!hasScored) {
+                        var combinationChoice = parseCombination(askCombination(scanner));
+                        scoreSheetJ2.updateScore(combinationChoice, boardJ2);
+                        System.out.println(scoreSheetJ2);
                     }
                 }
-
-                // S'assurer que le joueur a noté un score avant de passer au tour suivant
-                if (!hasScored) {
-                    var combinationChoice = parseCombination(askCombination(scanner));
-                    scoreSheet.updateScore(combinationChoice, board);
-                    System.out.println(scoreSheet);
-                }
             }
-             else if (roundCounter % 2 != 0) // Tour J2
-            {
-                 	System.out.println("Your turn " + nameJ2);
-                     System.out.println(boardJ2);
-
-                     boolean hasScored = false; // Ajoutez cette variable pour suivre si le joueur a déjà noté son score
-
-                     for (var updateCounter = 0; updateCounter < 3; updateCounter++) {
-                         if (hasScored) { // Si le joueur a déjà noté son score on sort de la boucle
-                             break;
-                         }
-                         
-                         var choice = askReroll(scanner);
-                         if (choice > 0) {
-                             boardJ2.reroll(choice);
-                             System.out.println(boardJ2);
-                         } else if (choice == 0) {
-                             var combinationChoice = parseCombination(askCombination(scanner));
-                             scoreSheetJ2.updateScore(combinationChoice, boardJ2); // Met à jour le score
-                             System.out.println(scoreSheetJ2);
-                             hasScored = true; // Marquer que le joueur a noté son score
-                             break; // Sortir de la boucle des relances
-                         }
-                     }
-
-                     // S'assurer que le joueur a noté un score avant de passer au tour suivant
-                     if (!hasScored) {
-                         var combinationChoice = parseCombination(askCombination(scanner));
-                         scoreSheetJ2.updateScore(combinationChoice, boardJ2);
-                         System.out.println(scoreSheetJ2);
-                     }
-            	 }
+            
+            // Affichage des scores finaux
+            System.out.println("\nFinal scores:");
+            System.out.println(name + ": " + scoreSheetJ1.scoreTotal());
+            System.out.println(nameJ2 + ": " + scoreSheetJ2.scoreTotal());
+            
+            // Détermination du gagnant
+            if (scoreSheetJ1.scoreTotal() > scoreSheetJ2.scoreTotal()) {
+                System.out.println(name + " has Won !!!");
+            } else if (scoreSheetJ1.scoreTotal() < scoreSheetJ2.scoreTotal()) {
+                System.out.println(nameJ2 + " has Won !!!");
+            } else {
+                System.out.println("It's a tie!");
             }
-            }
-        
-        
-        else {
-        	System.out.println("Choix invalide"); 
+        } else {
+            System.out.println("Choix invalide");
         }
 
-        System.out.println("C'est fini !");
+        System.out.println("Game Over!");
+        scanner.close();
     }
 }
