@@ -61,3 +61,8 @@ Projet SAE de BUT Informatique - IUT Marne-La-Vallée
 
 - Finition des 3 comptes-rendus
 - Test des différents objectifs
+
+# Mise à jour 26/04/25 - Issam
+
+- Bug fixes
+- Les modes de jeux ont leur propres classes désormais
