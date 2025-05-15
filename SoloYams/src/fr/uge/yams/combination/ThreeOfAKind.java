@@ -3,8 +3,8 @@ package fr.uge.yams.combination;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.uge.yams.controller.Board;
-import fr.uge.yams.controller.Dice;
+import fr.uge.yams.model.Board;
+import fr.uge.yams.model.Dice;
 
 /**
  * Représente la combinaison "Three of a Kind" (brelan) dans le jeu de Yams.

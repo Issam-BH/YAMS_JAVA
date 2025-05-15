@@ -1,4 +1,4 @@
-package fr.uge.yams.controller;
+package fr.uge.yams.model;
 
 import fr.uge.yams.combination.Carre;
 import fr.uge.yams.combination.Chance;

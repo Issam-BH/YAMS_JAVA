@@ -11,7 +11,7 @@ import fr.uge.yams.combination.Sacrifice;
 import fr.uge.yams.combination.SmallStraight;
 import fr.uge.yams.combination.ThreeOfAKind;
 import fr.uge.yams.combination.YamsCombination;
-import fr.uge.yams.gamemodes.Game;
+import fr.uge.yams.controller.Game;
 import fr.uge.yams.vue.Vue;
 
 /**

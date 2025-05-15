@@ -1,11 +1,11 @@
-package fr.uge.yams.gamemodes;
+package fr.uge.yams.controller;
 
 import java.util.Scanner;
 
 import fr.uge.yams.Yams;
-import fr.uge.yams.controller.Board;
-import fr.uge.yams.controller.CombinationChoice;
-import fr.uge.yams.controller.ScoreSheet;
+import fr.uge.yams.model.Board;
+import fr.uge.yams.model.CombinationChoice;
+import fr.uge.yams.model.ScoreSheet;
 import fr.uge.yams.vue.Vue;
 
 public class Classic {

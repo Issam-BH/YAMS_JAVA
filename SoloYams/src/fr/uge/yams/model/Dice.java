@@ -1,4 +1,4 @@
-package fr.uge.yams.controller;
+package fr.uge.yams.model;
 
 import java.util.Random;
 

@@ -1,6 +1,6 @@
 package fr.uge.yams.combination;
 
-import fr.uge.yams.controller.Board;
+import fr.uge.yams.model.Board;
 
 /**
  * Représente une combinaison possible dans le jeu de Yams (comme brelan, carré, full, etc.).

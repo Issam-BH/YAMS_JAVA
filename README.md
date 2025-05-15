@@ -62,7 +62,11 @@ Projet SAE de BUT Informatique - IUT Marne-La-Vallée
 - Finition des 3 comptes-rendus
 - Test des différents objectifs
 
-# Mise à jour 26/04/25 - Issam
+# Mise à jour 14/05/25 - Yanis
 
 - Bug fixes
 - Les modes de jeux ont leur propres classes désormais
+
+# Mise à jour 15/05/25 - Yanis
+
+- Mise à jour MVC (Note: Erreur de ma part j'ai pas organisé tout les package sous les noms approprié note donc que la partie modèle contient aussi les combinaisons)

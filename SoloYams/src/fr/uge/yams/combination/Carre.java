@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.uge.yams.controller.Board;
-import fr.uge.yams.controller.Dice;
+import fr.uge.yams.model.Board;
+import fr.uge.yams.model.Dice;
 
 
 /**
