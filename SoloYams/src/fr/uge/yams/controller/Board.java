@@ -1,4 +1,4 @@
-package fr.uge.yams;
+package fr.uge.yams.controller;
 
 import java.util.ArrayList;
 

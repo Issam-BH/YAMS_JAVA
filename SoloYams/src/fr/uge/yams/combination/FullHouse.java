@@ -1,8 +1,11 @@
-package fr.uge.yams;
+package fr.uge.yams.combination;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import fr.uge.yams.controller.Board;
+import fr.uge.yams.controller.Dice;
 
 /**
  * Représente la combinaison "Full House" dans le jeu de Yams.

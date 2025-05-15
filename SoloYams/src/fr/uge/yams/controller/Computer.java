@@ -1,7 +1,17 @@
-package fr.uge.yams;
+package fr.uge.yams.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import fr.uge.yams.combination.Carre;
+import fr.uge.yams.combination.Chance;
+import fr.uge.yams.combination.Combination;
+import fr.uge.yams.combination.FullHouse;
+import fr.uge.yams.combination.LargeStraight;
+import fr.uge.yams.combination.Sacrifice;
+import fr.uge.yams.combination.SmallStraight;
+import fr.uge.yams.combination.ThreeOfAKind;
+import fr.uge.yams.combination.YamsCombination;
 
 public class Computer {
 	public static Combination chooseBestCombination(Board board) {

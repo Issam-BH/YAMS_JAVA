@@ -1,6 +1,9 @@
-package fr.uge.yams;
+package fr.uge.yams.combination;
 
 import java.util.HashSet;
+
+import fr.uge.yams.controller.Board;
+import fr.uge.yams.controller.Dice;
 
 /**
  * Représente la combinaison "Small Straight" (Petite suite) dans le jeu de Yams.

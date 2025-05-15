@@ -1,13 +1,16 @@
-package fr.uge.yams;
+package fr.uge.yams.gamemodes;
 
 import java.util.Scanner;
+
+import fr.uge.yams.Yams;
+import fr.uge.yams.vue.Vue;
 
 public class Game {
 	
 	public static void game(String name) {
 	    var scanner = new Scanner(System.in);
 	    
-	    int gamemode = Yams.gamemode(scanner);
+	    int gamemode = Vue.gamemode(scanner);
         
 	    switch(gamemode) {
 	    case 1: {

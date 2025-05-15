@@ -1,4 +1,7 @@
-package fr.uge.yams;
+package fr.uge.yams.combination;
+
+import fr.uge.yams.controller.Board;
+import fr.uge.yams.controller.Dice;
 
 /**
  * Représente la combinaison "Chance" dans le jeu de Yams.

@@ -1,4 +1,6 @@
-package fr.uge.yams;
+package fr.uge.yams.combination;
+
+import fr.uge.yams.controller.Board;
 
 public record Sacrifice() implements Combination {
 	public int score(Board board) {

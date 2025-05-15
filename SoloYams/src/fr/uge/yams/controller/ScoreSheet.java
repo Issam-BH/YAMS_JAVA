@@ -1,7 +1,9 @@
-package fr.uge.yams;
+package fr.uge.yams.controller;
 
 import java.util.HashMap;
 import java.util.Objects;
+
+import fr.uge.yams.combination.Combination;
 
 /**
  * Représente la feuille de score d'une partie de Yams.

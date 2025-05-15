@@ -1,6 +1,12 @@
-package fr.uge.yams;
+package fr.uge.yams.gamemodes;
 
 import java.util.Scanner;
+
+import fr.uge.yams.Yams;
+import fr.uge.yams.controller.Board;
+import fr.uge.yams.controller.CombinationChoice;
+import fr.uge.yams.controller.ScoreSheet;
+import fr.uge.yams.vue.Vue;
 
 public class Classic {
 	public static void classic(String name) {
@@ -26,12 +32,12 @@ public class Classic {
                     break;
                 }
                 
-                var choice = Yams.askReroll(scanner);
+                var choice = Vue.askReroll(scanner);
                 if (choice > 0 && choice <= 5) {
                     board.reroll(choice);
                     System.out.println(board);
                 } else if (choice == 0) {
-                    var combinationChoice = Yams.parseCombination(Yams.askCombination(scanner));
+                    var combinationChoice = CombinationChoice.parseCombination(Vue.askCombination(scanner));
                     scoreSheet.updateScore(combinationChoice, board);
                     System.out.println(scoreSheet);
                     hasScored = true;
@@ -41,7 +47,7 @@ public class Classic {
 
             // S'assurer que le joueur a noté un score avant de passer au tour suivant
             if (!hasScored) {
-                var combinationChoice = Yams.parseCombination(Yams.askCombination(scanner));
+                var combinationChoice = CombinationChoice.parseCombination(Vue.askCombination(scanner));
                 scoreSheet.updateScore(combinationChoice, board);
                 System.out.println(scoreSheet);
             }

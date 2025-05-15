@@ -1,6 +1,9 @@
-package fr.uge.yams;
+package fr.uge.yams.combination;
 
 import java.util.HashMap;
+
+import fr.uge.yams.controller.Board;
+import fr.uge.yams.controller.Dice;
 
 /**
  * Représente la combinaison "Yam's" dans le jeu de Yams.

@@ -1,6 +1,12 @@
-package fr.uge.yams;
+package fr.uge.yams.gamemodes;
 
 import java.util.Scanner;
+
+import fr.uge.yams.Yams;
+import fr.uge.yams.controller.Board;
+import fr.uge.yams.controller.CombinationChoice;
+import fr.uge.yams.controller.ScoreSheet;
+import fr.uge.yams.vue.Vue;
 
 public class Multiplayer {
 	public static void multi(String name) {
@@ -29,12 +35,12 @@ public class Multiplayer {
                         break;
                     }
                     
-                    var choice = Yams.askReroll(scanner);
+                    var choice = Vue.askReroll(scanner);
                     if (choice > 0 && choice <= 5) {
                         boardJ1.reroll(choice);
                         System.out.println(boardJ1);
                     } else if (choice == 0) {
-                        var combinationChoice = Yams.parseCombination(Yams.askCombination(scanner));
+                        var combinationChoice = CombinationChoice.parseCombination(Vue.askCombination(scanner));
                         scoreSheetJ1.updateScore(combinationChoice, boardJ1);
                         System.out.println(scoreSheetJ1);
                         hasScored = true;
@@ -44,7 +50,7 @@ public class Multiplayer {
 
                 // S'assurer que le joueur a noté un score avant de passer au tour suivant
                 if (!hasScored) {
-                    var combinationChoice = Yams.parseCombination(Yams.askCombination(scanner));
+                    var combinationChoice = CombinationChoice.parseCombination(Vue.askCombination(scanner));
                     scoreSheetJ1.updateScore(combinationChoice, boardJ1);
                     System.out.println(scoreSheetJ1);
                 }
@@ -62,12 +68,12 @@ public class Multiplayer {
                         break;
                     }
                     
-                    var choice = Yams.askReroll(scanner);
+                    var choice = Vue.askReroll(scanner);
                     if (choice > 0 && choice <= 5) {
                         boardJ2.reroll(choice);
                         System.out.println(boardJ2);
                     } else if (choice == 0) {
-                        var combinationChoice = Yams.parseCombination(Yams.askCombination(scanner));
+                        var combinationChoice = CombinationChoice.parseCombination(Vue.askCombination(scanner));
                         scoreSheetJ2.updateScore(combinationChoice, boardJ2);
                         System.out.println(scoreSheetJ2);
                         hasScored = true;
@@ -77,7 +83,7 @@ public class Multiplayer {
 
                 // S'assurer que le joueur a noté un score avant de passer au tour suivant
                 if (!hasScored) {
-                    var combinationChoice = Yams.parseCombination(Yams.askCombination(scanner));
+                    var combinationChoice = CombinationChoice.parseCombination(Vue.askCombination(scanner));
                     scoreSheetJ2.updateScore(combinationChoice, boardJ2);
                     System.out.println(scoreSheetJ2);
                 }
