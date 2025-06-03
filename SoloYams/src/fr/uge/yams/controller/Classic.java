@@ -1,9 +1,12 @@
 package fr.uge.yams.controller;
 
+import fr.uge.yams.bonuses.Bonus;
+
 import java.util.Scanner;
 
 import fr.uge.yams.Yams;
 import fr.uge.yams.model.Board;
+import fr.uge.yams.model.BonusCombination;
 import fr.uge.yams.model.CombinationChoice;
 import fr.uge.yams.model.ScoreSheet;
 import fr.uge.yams.vue.Vue;
@@ -13,7 +16,12 @@ public class Classic {
 		var scoreSheet = new ScoreSheet();
         var board = new Board();
         var scanner = new Scanner(System.in);
+        var bonus = BonusCombination.parseCombination();
+        int maxchoice = 5;
         
+        if (bonus.score() == 1) {
+        	maxchoice += 1;
+        }
         // Nombre de tours à adapter selon les règles du jeu
         int totalRounds = 13; // Typiquement 13 dans un Yams complet
         
@@ -32,8 +40,9 @@ public class Classic {
                     break;
                 }
                 
+                
                 var choice = Vue.askReroll(scanner);
-                if (choice > 0 && choice <= 5) {
+                if (choice > 0 && choice <= maxchoice) {
                     board.reroll(choice);
                     System.out.println(board);
                 } else if (choice == 0) {
