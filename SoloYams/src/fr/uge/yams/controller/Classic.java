@@ -17,10 +17,16 @@ public class Classic {
         var board = new Board();
         var scanner = new Scanner(System.in);
         var bonus = BonusCombination.parseCombination();
-        int maxchoice = 5;
+        int maxchoice = 3;
+        int finalScore = 0;
         
+        
+        System.out.println("Bonus reçu : " + bonus.getClass().getSimpleName());
+
         if (bonus.score() == 1) {
         	maxchoice += 1;
+        } else if (bonus.score() == 3) {
+        	maxchoice += 99; // FUCK BALANCING TS GAME
         }
         // Nombre de tours à adapter selon les règles du jeu
         int totalRounds = 13; // Typiquement 13 dans un Yams complet
@@ -35,14 +41,14 @@ public class Classic {
             boolean hasScored = false;
             
             // Jusqu'à 3 relances possibles
-            for (var updateCounter = 0; updateCounter < 3; updateCounter++) {
+            for (var updateCounter = 0; updateCounter < maxchoice; updateCounter++) {
                 if (hasScored) {
                     break;
                 }
                 
                 
                 var choice = Vue.askReroll(scanner);
-                if (choice > 0 && choice <= maxchoice) {
+                if (choice > 0 && choice <= 5) {
                     board.reroll(choice);
                     System.out.println(board);
                 } else if (choice == 0) {
@@ -61,8 +67,12 @@ public class Classic {
                 System.out.println(scoreSheet);
             }
         }
-        
-        System.out.println("Final score: " + scoreSheet.scoreTotal());
+        if (bonus.score() == 2) {
+        	finalScore = scoreSheet.scoreTotal() * 2;
+        } else {
+        	finalScore = scoreSheet.scoreTotal();
+        }
+        System.out.println("Final score: " + finalScore);
         scanner.close();
 
 		}

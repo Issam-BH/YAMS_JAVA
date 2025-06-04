@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import fr.uge.yams.Yams;
 import fr.uge.yams.model.Board;
+import fr.uge.yams.model.BonusCombination;
 import fr.uge.yams.model.CombinationChoice;
 import fr.uge.yams.model.Computer;
 import fr.uge.yams.model.ScoreSheet;
@@ -14,7 +15,21 @@ public class CompVs {
 		var scoreSheetIA = new ScoreSheet(); 
         var scoreSheet = new ScoreSheet();
         var scanner = new Scanner(System.in);
+        var bonus1 = BonusCombination.parseCombination();
+        var bonus2 = BonusCombination.parseCombination();
+
+        int maxchoice1 = 3;
+        int finalScore1 = 0;
         
+        int finalScore2 = 0;
+        
+        
+        
+        System.out.println("Bonus received J1 : " + bonus1.name());
+        System.out.println("Bonus received COMP : " + bonus2.name());
+
+
+
         // Nombre de tours total à adapter
         int totalRounds = 8; // 4 tours chacun
         
@@ -22,13 +37,21 @@ public class CompVs {
             if (roundCounter % 2 == 0) { // Tour du joueur
                 System.out.println("Welcome in round " + (roundCounter / 2 + 1) + " - " + name + "'s turn");
                 
+                
+                
+                if (bonus1.score() == 1) {
+                	maxchoice1 += 1;
+                } else if (bonus1.score() == 3) {
+                	maxchoice1 += 99; 
+                }
+                
                 // Nouvelle main de dés pour le joueur
                 var board = new Board();
                 System.out.println(board);
 
                 boolean hasScored = false;
 
-                for (var updateCounter = 0; updateCounter < 3; updateCounter++) {
+                for (var updateCounter = 0; updateCounter < maxchoice1; updateCounter++) {
                     if (hasScored) {
                         break;
                     }
@@ -55,6 +78,7 @@ public class CompVs {
             } else { // Tour de l'IA
                 System.out.println("Round " + ((roundCounter / 2) + 1) + " - AI Turn!");
                 
+
                 // Nouvelle main de dés pour l'IA
                 var boardIA = new Board();
                 System.out.println("AI rolls: " + boardIA);
@@ -69,13 +93,25 @@ public class CompVs {
         
         // Affichage des scores finaux
         System.out.println("\nFinal scores:");
-        System.out.println(name + ": " + scoreSheet.scoreTotal());
-        System.out.println("Computer: " + scoreSheetIA.scoreTotal());
+        
+        if (bonus2.score() == 1) { // Compensation vu que l'ia peut pas reroll
+        	finalScore2 += scoreSheetIA.scoreTotal() + 10; 
+        } else if (bonus2.score() == 3) {
+        	finalScore2 += scoreSheetIA.scoreTotal() + 30; 
+        }
+        
+        if (bonus1.score() == 2) {
+        	finalScore1 = scoreSheet.scoreTotal() * 2;
+        } else {
+        	finalScore1 = scoreSheet.scoreTotal();
+        }
+        System.out.println(name + ": " + finalScore1);
+        System.out.println("Computer: " + finalScore2);
         
         // Détermination du gagnant
-        if (scoreSheet.scoreTotal() > scoreSheetIA.scoreTotal()) {
+        if (finalScore1 > finalScore2) {
             System.out.println(name + " has Won !!!");
-        } else if (scoreSheet.scoreTotal() < scoreSheetIA.scoreTotal()) {
+        } else if (finalScore1 < finalScore2) {
             System.out.println("The computer has won!");
         } else {
             System.out.println("It's a tie!");
