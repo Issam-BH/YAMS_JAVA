@@ -68,7 +68,8 @@ public class Multiplayer {
             if (roundCounter % 2 == 0) { // Joueur 1
                 arreterSon(); // arrêter son joueur 2 s'il tournait encore
                 System.out.println("Round " + ((roundCounter / 2) + 1) + " - " + name + "'s turn");
-                jouerSon("C:\\Users\\yanis\\Documents\\GitHub\\YAMS_JAVA\\Player_1_OST.wav");
+                jouerSon("Player_1_OST.wav");
+
 
                 if (bonus1.score() == 1) {
                     maxchoice1 += 1;
@@ -104,7 +105,7 @@ public class Multiplayer {
             } else { // Joueur 2
                 arreterSon(); // arrêter son joueur 1
                 System.out.println("Round " + ((roundCounter / 2) + 1) + " - " + nameJ2 + "'s turn");
-                jouerSon("C:\\Users\\yanis\\Documents\\GitHub\\YAMS_JAVA\\Player_1_OST.wav");
+                jouerSon("Player_1_OST.wav");
 
                 if (bonus2.score() == 1) {
                     maxchoice2 += 1;
